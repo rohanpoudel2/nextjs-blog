@@ -4,26 +4,26 @@ import utilStyles from '../styles/utils.module.css'
 import { getSortedPostsData } from '../lib/posts'
 import Link from 'next/link'
 import Date from '../components/date'
+import { GetStaticProps } from 'next'
 
-export async function getStaticProps() {
-  const allPostsData = await getSortedPostsData();
-  return {
-    props: {
-      allPostsData
-    }
-  }
-}
-
-const Home = ({ allPostsData }) => {
+export default function Home({
+  allPostsData
+}: {
+  allPostsData: {
+    date: string
+    title: string
+    id: string
+  }[]
+}) {
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>[Hello World, My name is Rohan Poudel]</p>
+        <p>Hello World, My name is Rohan Poudel</p>
         <p>
-          (This is the firt website i have built with next.js and it's very simple to understand and use.)
+          This is the website build using NextJS, following the tutorial in NextJs website.
         </p>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
@@ -40,8 +40,15 @@ const Home = ({ allPostsData }) => {
           ))}
         </ul>
       </section>
-    </Layout >
+    </Layout>
   )
 }
 
-export default Home
+export const getStaticProps: GetStaticProps = async () => {
+  const allPostsData = getSortedPostsData()
+  return {
+    props: {
+      allPostsData
+    }
+  }
+}
